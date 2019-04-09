@@ -26,7 +26,7 @@ public class p02_areas_in_a_matrix {
                     char ch = matrix[i][j];
                     areas.putIfAbsent(ch, 0);
                     areas.put(ch, areas.get(ch) + 1);
-                    dfs(i, j, ch);
+                    clearArea(i, j, ch);
                 }
             }
         }
@@ -39,16 +39,16 @@ public class p02_areas_in_a_matrix {
                 .forEach(entry -> System.out.printf("Letter '%s' -> %d%n", entry.getKey(), entry.getValue()));
     }
 
-    private static void dfs(int row, int col, char ch) {
+    private static void clearArea(int row, int col, char ch) {
         if (row < 0 || row >= matrix.length || col < 0 || col >= matrix[row].length || matrix[row][col] != ch) {
             return;
         }
 
         matrix[row][col] = '#';
 
-        dfs(row + 1, col, ch);
-        dfs(row - 1, col, ch);
-        dfs(row, col + 1, ch);
-        dfs(row, col - 1, ch);
+        clearArea(row + 1, col, ch);
+        clearArea(row - 1, col, ch);
+        clearArea(row, col + 1, ch);
+        clearArea(row, col - 1, ch);
     }
 }
