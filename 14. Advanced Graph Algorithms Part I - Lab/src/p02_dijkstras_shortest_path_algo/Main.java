@@ -1,4 +1,4 @@
-package DijkstraSkeleton;
+package p02_dijkstras_shortest_path_algo;
 
 import java.util.List;
 
