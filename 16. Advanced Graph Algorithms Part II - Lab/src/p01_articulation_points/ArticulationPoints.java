@@ -55,7 +55,7 @@ public class ArticulationPoints {
         }
 
         if ((parent[node] == null && childrenCount > 1) || (parent[node] != null && isArticulationPoint)) {
-             articulationPoints.add(node);
+            articulationPoints.add(node);
         }
     }
 }
