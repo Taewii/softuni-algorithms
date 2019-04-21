@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class p02_zig_zag_matrix {
-    
+
     private static int[][] matrix;
     private static int[][] path;
     private static int[][] prev;
@@ -26,7 +29,7 @@ public class p02_zig_zag_matrix {
             for (int row = 0; row < rows; row++) {
                 int prevMax = 0;
 
-                if (col % 2 == 0) {
+                if (col % 2 != 0) {
                     for (int i = row + 1; i < rows; i++) {
                         if (path[i][col - 1] > prevMax) {
                             prevMax = path[i][col - 1];
@@ -46,7 +49,44 @@ public class p02_zig_zag_matrix {
             }
         }
 
-        // TODO: 20.4.2019 г. recover path
+        int rowIndex = getLastRowIndexOfPath(cols);
+        List<Integer> path = recoverPath(cols, rowIndex);
+
+        int sum = path.stream().mapToInt(i -> i).sum();
+        StringBuilder sb = new StringBuilder();
+        sb.append(sum).append(" = ");
+        path.forEach(p -> sb.append(p).append(" + "));
+
+        System.out.println(sb.toString().substring(0, sb.length() - 3));
+    }
+
+    private static List<Integer> recoverPath(int cols, int rowIndex) {
+        List<Integer> path = new ArrayList<>();
+        int colIndex = cols - 1;
+
+        while (colIndex >= 0) {
+            path.add(matrix[rowIndex][colIndex]);
+            rowIndex = prev[rowIndex][colIndex];
+
+            colIndex--;
+        }
+
+        Collections.reverse(path);
+        return path;
+    }
+
+    private static int getLastRowIndexOfPath(int cols) {
+        int currentIndex = -1;
+        int globalMax = 0;
+
+        for (int row = 0; row < path.length; row++) {
+            if (path[row][cols - 1] > globalMax) {
+                globalMax = path[row][cols - 1];
+                currentIndex = row;
+            }
+        }
+
+        return currentIndex;
     }
 
     private static void fillMatrix(BufferedReader reader) throws IOException {
